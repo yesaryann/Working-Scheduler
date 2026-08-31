@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Platform ops and Support</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="title-wrap">
+          <span class="eyebrow">Team schedule</span>
+          <h1>Platform ops and Support</h1>
+        </div>
+
+        <div class="month-switcher" aria-label="Month navigation">
+          <button class="nav-button" type="button" aria-label="Previous month">←</button>
+          <div class="month-label">August 2026</div>
+          <button class="nav-button" type="button" aria-label="Next month">→</button>
+        </div>
+      </header>
+
+      <section class="summary-row">
+        <div class="desk-message-card">
+          <p>apparently 12 days in office because Teams has seen enough of us :D</p>
+        </div>
+      </section>
+
+      <main class="content-grid">
+        <aside class="roster-panel">
+          <div class="panel-heading">
+            <h2>People</h2>
+            <span class="count-pill" id="rosterCount">7</span>
+          </div>
+          <div id="memberList" class="member-list" aria-live="polite"></div>
+        </aside>
+
+        <section class="schedule-panel">
+          <div class="schedule-header">
+            <div>
+              <span class="section-label">Monthly board</span>
+              <h2 id="selectedName">Aryan Raj</h2>
+            </div>
+            <div class="legend">
+              <span class="legend-item"><i class="dot dot-wfh"></i> WFH</span>
+              <span class="legend-item"><i class="dot dot-office"></i> Office</span>
+            </div>
+          </div>
+
+          <div class="calendar-header">
+            <span>Mon</span>
+            <span>Tue</span>
+            <span>Wed</span>
+            <span>Thu</span>
+            <span>Fri</span>
+            <span>Sat</span>
+            <span>Sun</span>
+          </div>
+
+          <div id="calendarGrid" class="calendar-grid" aria-live="polite"></div>
+
+          <div class="monthly-office-summary" id="monthlyOfficeSummary">
+            <span class="summary-label">This month</span>
+            <strong id="officeCountText">0 days in office</strong>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
