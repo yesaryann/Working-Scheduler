@@ -56,10 +56,51 @@ const calendarGrid = document.getElementById('calendarGrid');
 const monthLabel = document.querySelector('.month-label');
 const navButtons = document.querySelectorAll('.nav-button');
 const officeCountText = document.getElementById('officeCountText');
+const STORAGE_KEY = 'working-scheduler-team-v1';
 
 let selectedMemberIndex = 0;
 let currentMonth = new Date();
 currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+
+function loadSavedSchedules() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+
+    const parsed = JSON.parse(saved);
+    if (!parsed || typeof parsed !== 'object') return;
+
+    team.forEach(member => {
+      const memberSchedule = parsed[member.name];
+      if (!memberSchedule || typeof memberSchedule !== 'object') return;
+
+      Object.keys(memberSchedule).forEach(monthKeyValue => {
+        const schedule = memberSchedule[monthKeyValue];
+        if (Array.isArray(schedule)) {
+          member.schedule[monthKeyValue] = [...schedule];
+        }
+      });
+    });
+  } catch (error) {
+    console.warn('Unable to load saved schedules:', error);
+  }
+}
+
+function saveSchedules() {
+  try {
+    const payload = {};
+
+    team.forEach(member => {
+      if (Object.keys(member.schedule).length > 0) {
+        payload[member.name] = { ...member.schedule };
+      }
+    });
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  } catch (error) {
+    console.warn('Unable to save schedules:', error);
+  }
+}
 
 function monthKey(date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
@@ -226,6 +267,7 @@ function renderCalendar() {
         applySelectState(this, nextValue);
         syncMemberStatusBadge(selectedMemberIndex, nextValue);
         updateOfficeCount();
+        saveSchedules();
       });
 
       cell.innerHTML = `
@@ -248,4 +290,5 @@ function render() {
 navButtons[0].addEventListener('click', () => changeMonth(-1));
 navButtons[1].addEventListener('click', () => changeMonth(1));
 
+loadSavedSchedules();
 render();
